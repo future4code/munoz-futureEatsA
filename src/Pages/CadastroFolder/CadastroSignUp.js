@@ -4,10 +4,11 @@ import { ScreenContainer } from './styled'
 import CadastroForm from './CadastroForm'
 import { LogoImage } from './styled'
 import { Tittle } from './styled'
-/* import useUnprotectedPage from '../../hooks/useUnprotectedPage'
- */
+import useUnProtectedPage from '../../hooks/useUnprotectedPage'
+
 const CadastroSignUp = ({setRightButtonText}) => {
-  /* useUnprotectedPage() */
+   useUnProtectedPage()
+   
   return (
     <ScreenContainer>
       
