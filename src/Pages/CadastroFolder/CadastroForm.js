@@ -14,8 +14,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 /* import {signUp} from "../../services/user" */
 import CircularProgress from '@material-ui/core/CircularProgress'
+import useUnProtectedPage from '../../hooks/useUnprotectedPage'
 
 const CadastroForm = ({ setRightButtonText }) => {
+    useUnProtectedPage()
+    
     const history = useHistory()
     const [form, onChange, clear] = useForm({ name: '', email: '', cpf: '', password: '' })
     const [isLoading, setIsLoading] = useState(false)
