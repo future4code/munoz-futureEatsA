@@ -1,12 +1,22 @@
-import React from 'react';
+import React from 'react'
+import logo from '../../assets/logo-signUp.png'
+import { ScreenContainer } from './styled'
+import CadastroForm from './CadastroForm'
+import { LogoImage } from './styled'
+import { Tittle } from './styled'
+import useUnProtectedPage from '../../hooks/useUnprotectedPage'
 
-
-function CadastroSignUp () {
+const CadastroSignUp = ({setRightButtonText}) => {
+   useUnProtectedPage()
+   
   return (
-    <>
-      <h1>Cadastro</h1>
-    </>
-  );
+    <ScreenContainer>
+      
+      <LogoImage src={logo}/>
+      <Tittle>Cadastrar</Tittle>
+      <CadastroForm setRightButtonText={setRightButtonText}/>
+    </ScreenContainer>
+  )
 }
 
-export default CadastroSignUp;
+export default CadastroSignUp

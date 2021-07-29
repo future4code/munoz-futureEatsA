@@ -1,12 +1,16 @@
 import React from 'react';
 import Router from './routes/Router';
+import theme from './Constants/theme'
+import { ThemeProvider } from '@material-ui/core/styles'
 
 
 
 function App() {
   return (
     <>
-    <Router />
+    <ThemeProvider theme={theme}>
+      <Router />
+    </ThemeProvider>
     </>
   );
 }

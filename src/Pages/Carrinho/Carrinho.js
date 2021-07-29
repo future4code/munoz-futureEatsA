@@ -4,6 +4,7 @@ import burgerPhoto from '../../assets/mao-santa-burguer.png';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import useProtectedPage from '../../hooks/useProtectedPage';
 
 const CartPageContainer = styled.div`
   margin: 0 auto;
@@ -296,8 +297,8 @@ const PhantomDiv = styled.div`
   font-size: 2em;
 `;
 
-
 function Cart() {
+  // useProtectedPage()
   return (
     <CartPageContainer>
       <PageTitleContainer>

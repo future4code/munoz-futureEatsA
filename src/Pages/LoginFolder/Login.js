@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
 import {goToCadastroSignUp} from "../../routes/cordinator"
+import {logar} from '../../services/login'
+import useUnProtectedPage from '../../hooks/useUnprotectedPage';
 
 
 const ButtonSubmit = styled(Button)({
@@ -20,16 +22,17 @@ const ButtonSignUp= styled(Button)({
  
 
 const Login = () => {
+  useUnProtectedPage()
+
+  const history = useHistory()
+  
   const [form, onChange, clear] = useForm({email: "", password: ""})
+
 
   const onSubmitForm = (event) => {
     event.preventDefault()
-
-    console.log(form)
-
+    logar(form, clear, history)
   }
-
-  const history = useHistory()
 
   return (
     <ScreenContainer>
