@@ -1,37 +1,54 @@
 import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import { InputsContainer, SignUpFormContainer } from './styled'
+import { InputsContainer, SignUpFormContainer, TitleButton } from './styled'
 import { useHistory } from 'react-router-dom'
 import useForm from '../../hooks/useForm'
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import {signUp} from '../../services/login'
 /* import {signUp} from "../../services/user" */
 import CircularProgress from '@material-ui/core/CircularProgress'
 import useUnProtectedPage from '../../hooks/useUnprotectedPage'
 
 const CadastroForm = ({ setRightButtonText }) => {
-    useUnProtectedPage()
+    /* useUnProtectedPage() */
     
     const history = useHistory()
     const [form, onChange, clear] = useForm({ name: '', email: '', cpf: '', password: '' })
     const [isLoading, setIsLoading] = useState(false)
-    const [valuePassword, setValuePassword] = useState(false);   
+    const [value, setValue] = useState({
+        
+        password1: false,
+        password2: false,
+        passwordConfirm: ""
+    });   
        
+    
+    const handleClickShowPassword1 = () => {
+        setValue({...value, password1: !value.password1});
+        console.log(value.passwordConfirm)
+    };
 
-    const handleClickShowPassword = () => {
-        setValuePassword(!valuePassword);
+    const handleChange = (event) => {
+        setValue({ ...value, passwordConfirm: event.target.value });
+      };
+
+      const handleClickShowPassword2 = () => {
+        setValue({...value, password2: !value.password2});
+        
     };
 
     const onSubmitForm = (event) => {
         event.preventDefault()
-        /* signUp(form, clear, history, setRightButtonText, setIsLoading) */
+        signUp(form, clear, history)
         console.log("clicou", form)
     }
 
@@ -42,6 +59,7 @@ const CadastroForm = ({ setRightButtonText }) => {
 
             <InputsContainer>
                 <TextField
+                    
                     value={form.name}
                     name={'name'}
                     onChange={onChange}
@@ -51,12 +69,6 @@ const CadastroForm = ({ setRightButtonText }) => {
                     required
                     autoFocus
                     margin={'normal'}
-                /* InputLabelProps={{
-                    shrink: true,
-                }} */
-
-
-
                 />
                 <TextField
                     value={form.email}
@@ -68,7 +80,6 @@ const CadastroForm = ({ setRightButtonText }) => {
                     fullWidth
                     required
                     margin={'normal'}
-
                 />
                 <TextField
                     value={form.cpf}
@@ -80,18 +91,15 @@ const CadastroForm = ({ setRightButtonText }) => {
                     fullWidth
                     required
                     margin={'normal'}
-
                 />
-
-
-
                 <FormControl
+                    
                     variant="outlined"
                     fullWidth
                     required
                     margin={'normal'}                    
                     label={'Senha'}
-                    value={form.password}
+                    value={form.password1}
                     InputLabelProps={{
                         shrink: true,
                     }}
@@ -100,7 +108,7 @@ const CadastroForm = ({ setRightButtonText }) => {
 
                     >Password</InputLabel>
                     <OutlinedInput
-                        type={valuePassword ? 'text' : 'password'}
+                        type={value.password1 ? 'text' : 'password'}
                         value={form.password}
                         onChange={onChange}
                         name={'password'}
@@ -108,10 +116,10 @@ const CadastroForm = ({ setRightButtonText }) => {
                             <InputAdornment position="end">
                                 <IconButton
                                     aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
+                                    onClick={handleClickShowPassword1}
 
                                 >
-                                    {valuePassword ? <Visibility /> : <VisibilityOff />}
+                                    {value.password1 ? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                             </InputAdornment>
                         }
@@ -124,32 +132,36 @@ const CadastroForm = ({ setRightButtonText }) => {
                     fullWidth
                     required
                     margin={'normal'}
+                    error= {form.password !== value.passwordConfirm? true : false}
+                    id="filled-error"
+                    label="Error"
+                    defaultValue="Hello World"
                     
-                    
-
                 >
                     <InputLabel
+                    
 
                     >Confirmar</InputLabel>
                     <OutlinedInput
-                        type={valuePassword? 'text' : 'password'}
-                        name={'password'}
-                        value={form.password}
-                        onChange={onChange}
+                        aria-describedby="component-error-text"
+                        type={value.password2? 'text' : 'password'}
+                        name={'passwordConfirm'}
+                        value={value.passwordConfirm}
+                        onChange={handleChange}
                         variant={'outlined'}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
                                     aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
+                                    onClick={handleClickShowPassword2}
                                 >
-                                    {valuePassword? <Visibility /> : <VisibilityOff />}
+                                    {value.password2? <Visibility /> : <VisibilityOff />}
                                 </IconButton>
                             </InputAdornment>
                         }
                         labelWidth={70}
 
-                    /> </FormControl>
+                    /> {form.password !== value.passwordConfirm? <FormHelperText>Digite a mesma senha para confirmar</FormHelperText> : false}</FormControl> 
 
 
 
@@ -163,7 +175,7 @@ const CadastroForm = ({ setRightButtonText }) => {
                 type={'submit'}
                 fullWidth
             >
-                {isLoading ? <CircularProgress color={"inherit"} size={24} /> : <>Fazer Cadastro</>}
+                {isLoading ? <CircularProgress   /> : <>Criar</>}
             </Button>
 
         </form>
