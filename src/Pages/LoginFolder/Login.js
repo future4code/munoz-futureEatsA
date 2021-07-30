@@ -22,7 +22,7 @@ const ButtonSignUp= styled(Button)({
  
 
 const Login = () => {
-  useUnProtectedPage()
+  /* useUnProtectedPage() */
 
   const history = useHistory()
   
