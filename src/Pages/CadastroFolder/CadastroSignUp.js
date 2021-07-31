@@ -14,7 +14,7 @@ const CadastroSignUp = ({setRightButtonText}) => {
       
       <LogoImage src={logo}/>
       <Tittle>Cadastrar</Tittle>
-      <CadastroForm setRightButtonText={setRightButtonText}/>
+      <CadastroForm />
     </ScreenContainer>
   )
 }

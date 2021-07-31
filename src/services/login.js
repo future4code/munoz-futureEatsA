@@ -1,6 +1,6 @@
 import axios from "axios"
 import { BASE_URL } from '../Constants/url';
-import { goToHome } from "../routes/cordinator";
+import { goToHome, goToCadastroEndereco } from "../routes/cordinator";
 
 export const logar = (body, clear, history) => {
     axios.post(`${BASE_URL}/login`, body)
@@ -14,16 +14,4 @@ export const logar = (body, clear, history) => {
 
 
 
-export const signUp = (body, clear, history) => {
-    
-    axios.post(`${BASE_URL}/signup`, body)
-        .then((res) => {
-          localStorage.setItem("token", res.data.token)
-            clear()
-            goToHome(history)            
-        })
-        .catch((err) => {
-            
-            alert(err.response.data.message)
-        })
-}
+
