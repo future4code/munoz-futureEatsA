@@ -13,13 +13,13 @@ import Input from '@material-ui/core/Input';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import {signUp} from '../../services/login'
+import {postSignup} from '../../services/postSignup'
 /* import {signUp} from "../../services/user" */
 import CircularProgress from '@material-ui/core/CircularProgress'
-import useUnProtectedPage from '../../hooks/useUnprotectedPage'
+
 
 const CadastroForm = ({ setRightButtonText }) => {
-    /* useUnProtectedPage() */
+    
     
     const history = useHistory()
     const [form, onChange, clear] = useForm({ name: '', email: '', cpf: '', password: '' })
@@ -48,8 +48,8 @@ const CadastroForm = ({ setRightButtonText }) => {
 
     const onSubmitForm = (event) => {
         event.preventDefault()
-        signUp(form, clear, history)
-        console.log("clicou", form)
+        postSignup(form, clear, history)
+        
     }
 
     
