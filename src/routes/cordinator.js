@@ -31,7 +31,7 @@ export const goToPerfil = (history) => {
 };
 
 export const goToEditarCadastro = (history) => {
-    history.push('/editarcadastro');
+    history.push('/editarperfil');
 };
 
 export const goToEditarEndereco = (history) => {
