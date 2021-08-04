@@ -18,9 +18,9 @@ export const goToHome = (history) => {
     history.push('/');
 };
 
-export const goToRestaurante = (history) => {
-    history.push('/restaurante');
-};
+export const goToRestaurante = (history, id) => {
+    history.push(`/restaurante/${id}`)
+}
 
 export const goToCarrinho = (history) => {
     history.push('/carrinho');
