@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import useProtectedPage from '../../hooks/useProtectedPage';
 import { CardImagem } from '../HomeFolder/styled';
 import { ContainerDetail, Card, CardDetail } from './styled';
+import {BASE_URL} from '../../Constants/url'
 
 function Restaurante () {
   useProtectedPage()
@@ -13,14 +14,14 @@ function Restaurante () {
 
 
   useEffect(() => {
-    const token = localStorage.getItem("token1");
-    axios.get(`https://us-central1-missao-newton.cloudfunctions.net/futureEatsA/restaurants/${params.id}`, {
+    const token = localStorage.getItem("token");
+    axios.get(`${BASE_URL}/restaurants/${params.id}`, {
       headers: {
         auth: token
       }
     })
     .then((response) => {
-      console.log(response.data.restaurant.products);
+      console.log(response.data);
       setListRestaurant(response.data.restaurant.products)
     })
     .catch((error) => {

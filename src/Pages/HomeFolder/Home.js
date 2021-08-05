@@ -2,12 +2,46 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useProtectedPage from '../../hooks/useProtectedPage';
-import { ContainerInput, CampoIcon, CampoInput, CardImagem, ContainerLista, ContainerImagem, Lista, BarraScroll, Imagem, } from './styled';
+import {
+  ContainerInput,
+  CampoIcon,
+  CardImagem,
+  CardInfo,
+  ScreenContainer,
+  ContainerLista,
+  CardContainer,
+  Lista,
+  BarraScroll,
+  Root,
+  Tittle,
+  Info,
+  CardImg,
+  Footer,
+} from './styled';
 import { MdSearch } from "react-icons/md"
 import { goToRestaurante } from '../../routes/cordinator';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import OutlinedInput from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search'
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
+import DirectionsIcon from '@material-ui/icons/Directions';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 
 
-function Home () {
+function Home() {
   useProtectedPage()
   const [restaurante, setRestaurante] = useState();
   const [busca, setBusca] = useState("")
@@ -39,16 +73,28 @@ function Home () {
   }
 
   return (
-    <div>
-    <ContainerInput>
-    <CampoIcon><MdSearch/></CampoIcon>
-    <CampoInput 
-    type="text" 
-    placeholder="Buscar Restaurante"
-    value={busca}
-    onChange={onChangeBusca}
-    ></CampoInput>
-    </ContainerInput>
+    <Root>
+      <Tittle>FutereEats</Tittle>
+
+      <ContainerInput>
+        <Paper component="form" variant="outlined" >
+          <IconButton type="submit" aria-label="search">
+            <SearchIcon />
+          </IconButton>
+
+          <InputBase
+            type="text"
+            placeholder="Buscar Restaurante"
+            value={busca}
+            onChange={onChangeBusca}
+            placeholder="Restaurante"
+            
+          />
+          <Divider orientation="horizontal" />
+
+        </Paper>
+
+      </ContainerInput>
       <BarraScroll>
         {restaurante &&
           restaurante.map((restaurante) => {
@@ -61,27 +107,58 @@ function Home () {
             );
           })}
       </BarraScroll>
-      <ContainerImagem>
+      <ScreenContainer>
         {restaurante &&
-          restaurante.filter((restaurante) =>{
-            if(busca === ""){
+          restaurante.filter((restaurante) => {
+            if (busca === "") {
               return restaurante
-            }else if(restaurante.logoUrl.toLowerCase().includes(busca.toLowerCase())){
+            } else if (restaurante.name.toLowerCase().includes(busca.toLowerCase())) {
               return restaurante
             }
           })
-          .map((restaurante) => {
-            return (
-              <CardImagem key={restaurante}>
-                <Imagem
-                  onClick={() => goToRestaurante(history, restaurante.id)}
-                  src={restaurante.logoUrl}
-                ></Imagem>
-              </CardImagem>
-            );
-          })}
-      </ContainerImagem>
-    </div>
+            .map((restaurante) => {
+              return (
+                
+                  <CardContainer>                    
+                      <CardImg                                                
+                        src={restaurante.logoUrl}                        
+                      />
+                      <CardInfo>
+                        <Typography gutterBottom variant="h5" component="h2" color="primary">
+                          {restaurante.name}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                          <Info><p>{restaurante.deliveryTime} min</p><p>Frete R${restaurante.shipping},00</p></Info>
+                        </Typography>
+                      </CardInfo>
+                      
+                       
+                        
+                        
+                     
+                    
+                  </CardContainer>
+                  
+                
+
+                /* <CardImagem key={restaurante}>
+                  <Imagem
+                    onClick={() => goToRestaurante(history, restaurante.id)}
+                    src={restaurante.logoUrl}
+                  ></Imagem>
+                </CardImagem>  */
+              );
+            })}
+      </ScreenContainer>
+      <Footer>
+                  <><HomeOutlinedIcon
+                    fontSize="large" /></>
+                  <><ShoppingCartOutlinedIcon
+                    fontSize="large" /></>
+                  <><PersonOutlineOutlinedIcon
+                    fontSize="large" /></>
+                </Footer>
+    </Root>
   );
 }
 
