@@ -1,55 +1,105 @@
 import styled from "styled-components";
 
 export const BarraScroll = styled.div`
-width: 100vw;
-height: 8vh;
+width: 90vw;
 display: flex;
 overflow-x: scroll;
 
 `;
 
-export const Imagem = styled.img`
-display: block;
-width: 100%;
-height: 100%;
-margin: 0;
-`;
+
 export const Lista = styled.p`
 font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 font-weight: 800;
 font-size: 18px;
-color: #BEBEBE;
+font-weight: 500;
 `;
-export const CampoInput = styled.input`
-margin-top: .5em;
-margin-left: 2em;
-border: none;
-background-color: #E8E8E8;
-outline: none;
-`;
+
 
 export const ContainerInput = styled.div `
-margin-top: 1em;
-background: #E8E8E8;
-border-radius: 5px;
-width: 70%;
-height: 2em ;
-margin-left: 4em;
-border: none;
+margin: 18px 28px 6px;
+font-family: Roboto;
+text-align: center;
+width: 90vw;
+text-align: start;    
 `
-export const CampoIcon = styled.i `
-position: absolute;
-margin-top: .3em;
-font-size: 20px;
-color: black;
-`
+
 export const ContainerLista = styled.div `
-height: 10vh;
 margin: 5px 20px;
 `
-export const ContainerImagem = styled.div ` 
+
+
+//////
+export const CardContainer = styled.div `
+width: 90vw;
+margin-top: 10px;
+box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+border-radius: 10px;
+height: 40vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`
+
+export const CardImg = styled.img `
+border-radius: 10px 10px 0px 0px;
+width: 90vw;
+height: 65%;
 
 `
-export const CardImagem = styled.div `
-height: 20em;
+
+
+export const ScreenContainer = styled.div`  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90vw;
+  
+  
+ 
 `
+export const Root = styled.div`  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  
+`
+
+export const Tittle = styled.p`
+font-size: 18px;
+font-family: Roboto;
+text-align: center;
+font-weight: 500;
+margin-top: 33px;
+`
+export const Info = styled.p`
+display: flex;
+justify-content: space-between;
+font-size: 18px;
+margin-bottom: 10px;
+`
+export const CardImagem = styled.div `
+width: 90vw;
+margin-top: 10px;
+border: 1px solid black;
+border-radius: 10px;
+`
+export const CardInfo = styled.div `
+width: 80vw;
+padding: 5px;
+height: 30%;
+margin-bottom: 10px;
+`
+export const Footer = styled.footer`
+  width: 100vw;
+  padding: 10px 0;
+  box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.2), 0 -2px 1px -1px rgba(0, 0, 0, 0.12), 0 -1px 1px 0 rgba(0, 0, 0, 0.14);
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  position: sticky;
+  bottom: 0;
+`;

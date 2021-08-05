@@ -1,9 +1,25 @@
+//<<<<<<< denisson-terminando-homepage
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import useProtectedPage from '../../hooks/useProtectedPage';
+import { CardImagem } from '../HomeFolder/styled';
+import { ContainerDetail, Card, CardDetail } from './styled';
+import {BASE_URL} from '../../Constants/url'
+
+function Restaurante () {
+  useProtectedPage()
+  const [listRestaurant, setListRestaurant] = useState()
+  const [productInCart, setProductInCart] = useState([])
+  const params = useParams()
+//=======
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useProtectedPage from "../../hooks/useProtectedPage";
 import { Botao, CardBotao, CardDetalheProduto, CardName, CardNomeProduto, CardPreco, CardRestaurant, DetalheProduto, Imagem, ListName, NomeProduto, Preco } from "../RestauranteFolder/styled";
 import { ContainerDetail, Card, CardDetail } from "./styled";
+//>>>>>>> master
 
 function Restaurante() {
   useProtectedPage();
@@ -13,6 +29,21 @@ function Restaurante() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+//<<<<<<< denisson-terminando-homepage
+    axios.get(`${BASE_URL}/restaurants/${params.id}`, {
+      headers: {
+        auth: token
+      }
+    })
+    .then((response) => {
+      console.log(response.data);
+      setListRestaurant(response.data.restaurant.products)
+    })
+    .catch((error) => {
+      console.log(error.response);
+    })
+  },[params.id])
+//=======
     axios
       .get(
         `https://us-central1-missao-newton.cloudfunctions.net/futureEatsA/restaurants/${params.id}`,
@@ -30,6 +61,7 @@ function Restaurante() {
         console.log(error.response);
       });
   }, [params.id]);
+//>>>>>>> master
 
   const addRestaurant = (produto) => {
     const restaurant = productInCart.find((restaurant) => {
