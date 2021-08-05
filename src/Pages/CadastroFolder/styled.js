@@ -5,7 +5,6 @@ export const ScreenContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  margin-top: 8vh;
   text-align: center;
 `
 

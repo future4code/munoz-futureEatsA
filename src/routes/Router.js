@@ -10,12 +10,15 @@ import Carrinho from '../Pages/Carrinho/Carrinho'
 import Perfil from '../Pages/Perfil/PerfilUsuario'
 import EditarCadastro from '../Pages/Perfil/EditarCadastro'
 import EditarEndereco from '../Pages/Perfil/EditarEndereco'
-
-
+import Frame from '../Components/Frame/Frame';
+import { goToLogin } from './cordinator';
+import { useHistory } from 'react-router-dom';
 
 
 function Router() {
 
+  const history = useHistory()
+    
     return (
         <BrowserRouter>
              <Switch>
@@ -24,39 +27,56 @@ function Router() {
                  </Route>
 
                  <Route exact path='/login'>
-                    <Login />
+                   <Login />
                  </Route>
 
                  <Route exact path='/cadastrosignup'>
-                     <CadastroSignUp />
+                     <Frame
+                       onClickReturn={() => goToLogin(history)}
+                       page={<CadastroSignUp />}
+                     />
                  </Route>
 
                  <Route exact path='/cadastroendereco'>
-                     <CadastroEnd />
+                     <Frame
+                       page={<CadastroEnd />}
+                     />
                  </Route>
 
                  <Route exact path='/'>
-                     <Home />
+                     <Frame
+                       page={<Home />}
+                     />
                  </Route>
 
                  <Route exact path='/restaurante'>
-                     <Restaurante />
+                     <Frame
+                       page={<Restaurante />}
+                     />
                  </Route>
 
                  <Route exact path='/carrinho'>
-                     <Carrinho />
+                     <Frame
+                       page={<Carrinho />}
+                     />
                  </Route>
 
                  <Route exact path='/perfil'>
-                     <Perfil />
+                     <Frame
+                       page={<Perfil />}
+                     />
                  </Route>
 
                  <Route exact path='/editarcadastro'>
-                     <EditarCadastro />
+                     <Frame
+                       page={<EditarCadastro />}
+                     />
                  </Route>
 
                  <Route exact path='/editarendereco'>
-                     <EditarEndereco />
+                     <Frame
+                       page={<EditarEndereco />}
+                     />
                  </Route>
              </Switch>
         </BrowserRouter>

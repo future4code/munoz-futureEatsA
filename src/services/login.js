@@ -1,6 +1,7 @@
 import axios from "axios"
 import { BASE_URL } from '../Constants/url';
 import { goToHome } from "../routes/cordinator";
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 export const logar = (body, clear, history) => {
     axios.post(`${BASE_URL}/login`, body)
@@ -9,8 +10,9 @@ export const logar = (body, clear, history) => {
       clear()
       goToHome(history)
     })
-    .catch((err)=> alert("Erro no login"))
+    .catch((err)=> alert(err.response.data.message))
   }
+
 
 
 
