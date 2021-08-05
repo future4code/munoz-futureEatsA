@@ -53,7 +53,7 @@ function Home () {
         {restaurante &&
           restaurante.map((restaurante) => {
             return (
-              <ContainerLista key={restaurante}>
+              <ContainerLista key={restaurante.id}>
                 <Lista onClick={() => goToRestaurante(history, restaurante.id)}>
                   {restaurante.category}
                 </Lista>
@@ -72,7 +72,7 @@ function Home () {
           })
           .map((restaurante) => {
             return (
-              <CardImagem key={restaurante}>
+              <CardImagem key={restaurante.id}>
                 <Imagem
                   onClick={() => goToRestaurante(history, restaurante.id)}
                   src={restaurante.logoUrl}

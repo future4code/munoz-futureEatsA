@@ -39,7 +39,7 @@ function Router() {
                      <Home />
                  </Route>
 
-                 <Route exact path='/restaurante'>
+                 <Route exact path='/restaurante/:id'>
                      <Restaurante />
                  </Route>
 
