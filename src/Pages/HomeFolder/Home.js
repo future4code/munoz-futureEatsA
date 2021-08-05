@@ -99,7 +99,7 @@ function Home() {
         {restaurante &&
           restaurante.map((restaurante) => {
             return (
-              <ContainerLista key={restaurante}>
+              <ContainerLista key={restaurante.id}>
                 <Lista onClick={() => goToRestaurante(history, restaurante.id)}>
                   {restaurante.category}
                 </Lista>
@@ -116,6 +116,7 @@ function Home() {
               return restaurante
             }
           })
+//<<<<<<< denisson-terminando-homepage
             .map((restaurante) => {
               return (
                 
@@ -159,6 +160,20 @@ function Home() {
                     fontSize="large" /></>
                 </Footer>
     </Root>
+//=======
+          .map((restaurante) => {
+            return (
+              <CardImagem key={restaurante.id}>
+                <Imagem
+                  onClick={() => goToRestaurante(history, restaurante.id)}
+                  src={restaurante.logoUrl}
+                ></Imagem>
+              </CardImagem>
+            );
+          })}
+      </ContainerImagem>
+    </div>
+//>>>>>>> master
   );
 }
 
