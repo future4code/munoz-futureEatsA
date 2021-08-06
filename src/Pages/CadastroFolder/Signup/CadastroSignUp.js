@@ -1,10 +1,10 @@
 import React from 'react'
-import logo from '../../assets/logo-signUp.png'
-import { ScreenContainer } from './styled'
+import logo from '../../../assets/logo-signUp.png'
+import { ScreenContainer } from '../SignUpEnd/styled'
 import CadastroForm from './CadastroForm'
-import { LogoImage } from './styled'
-import { Tittle } from './styled'
-import useUnProtectedPage from '../../hooks/useUnprotectedPage'
+import { LogoImage } from '../SignUpEnd/styled'
+import { Tittle } from '../SignUpEnd/styled'
+import useUnProtectedPage from '../../../hooks/useUnprotectedPage'
 
 const CadastroSignUp = ({setRightButtonText}) => {
    useUnProtectedPage()
@@ -14,7 +14,7 @@ const CadastroSignUp = ({setRightButtonText}) => {
       
       <LogoImage src={logo}/>
       <Tittle>Cadastrar</Tittle>
-      <CadastroForm setRightButtonText={setRightButtonText}/>
+      <CadastroForm />
     </ScreenContainer>
   )
 }

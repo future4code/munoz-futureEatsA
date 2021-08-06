@@ -2,8 +2,8 @@ import React from 'react'
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import TelaInicial from '../Pages/TelaInicial'
 import Login from '../Pages/LoginFolder/Login'
-import CadastroSignUp from '../Pages/CadastroFolder/CadastroSignUp'
-import CadastroEnd from '../Pages/CadastroFolder/CadastroEnd'
+import CadastroSignUp from '../Pages/CadastroFolder/Signup/CadastroSignUp'
+import CadastroEnd from '../Pages/CadastroFolder/SignUpEnd/CadastroEnd'
 import Home from '../Pages/HomeFolder/Home'
 import Restaurante from '../Pages/RestauranteFolder/Restaurante'
 import Carrinho from '../Pages/Carrinho/Carrinho'
@@ -13,6 +13,9 @@ import EditarEndereco from '../Pages/Perfil/EditarEndereco'
 import Frame from '../Components/Frame/Frame';
 import { goToLogin } from './cordinator';
 import { useHistory } from 'react-router-dom';
+import EditarPerfil from '../Pages/Perfil/EditarPerfil/EditarPerfil'
+import EditarEndereco from '../Pages/Perfil/EditarEndereco/EditarEndereco'
+
 
 
 function Router() {
@@ -49,10 +52,8 @@ function Router() {
                      />
                  </Route>
 
-                 <Route exact path='/restaurante'>
-                     <Frame
-                       page={<Restaurante />}
-                     />
+                 <Route exact path='/restaurante/:id'>
+                     <Restaurante />
                  </Route>
 
                  <Route exact path='/carrinho'>
@@ -67,10 +68,8 @@ function Router() {
                      />
                  </Route>
 
-                 <Route exact path='/editarcadastro'>
-                     <Frame
-                       page={<EditarCadastro />}
-                     />
+                 <Route exact path='/editarperfil'>
+                     <EditarPerfil />
                  </Route>
 
                  <Route exact path='/editarendereco'>

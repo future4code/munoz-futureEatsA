@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import burgerPhoto from '../../assets/mao-santa-burguer.png';
+import { primaryColor, neutralColor } from '../../Constants/colors';
+import { BASE_URL } from '../../Constants/url';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import useProtectedPage from '../../hooks/useProtectedPage';
+import axios from 'axios';
 
 const CartPageContainer = styled.div`
   margin: 0 auto;
-  width: 360px;
-  height: 640px;
+  width: 100vw;
+  height: 100vh;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -17,7 +19,7 @@ const CartPageContainer = styled.div`
 `;
 
 const PageTitleContainer = styled.div`
-  width: 360px;
+  width: 100vw;
   height: 44px;
   background-color: white;
   margin: 20px 92px 0 93px;
@@ -34,7 +36,7 @@ const PageTitleContainer = styled.div`
 const Title = styled.div`
   font-family: Roboto;
   font-size: 16px;
-  width: 360px;
+  width: 100vw;
   height: 44px;
   display: flex;
   align-items: center;
@@ -42,7 +44,7 @@ const Title = styled.div`
 `;
 
 const AddressContainer = styled.div`
-  width: 360px;
+  width: 100vw;
   height: 76px;
   margin: 1px 0;
   background-color: #eeeeee;
@@ -54,7 +56,7 @@ const AddressTitle = styled.div`
   font-family: Roboto;
   font-size: 16px;
   letter-spacing: -0.39px;
-  color: #b8b8b8;
+  color: ${neutralColor};
   margin: 16px 16px 4px 16px;
 `;
 
@@ -74,7 +76,7 @@ const ShopName = styled.div`
   font-family: Roboto;
   font-size: 16px;
   letter-spacing: -0.39px;
-  color: #5cb646;
+  color: ${primaryColor};
   margin: 16px 16px 4px 16px;
 `;
 
@@ -84,7 +86,7 @@ const ShopAddress = styled.div`
   font-family: Roboto;
   font-size: 16px;
   letter-spacing: -0.39px;
-  color: #b8b8b8;
+  color: ${neutralColor};
   margin: 4px 16px;
 `;
 
@@ -95,7 +97,7 @@ const ShopDeliveryTime = styled.div`
   font-family: Roboto;
   font-size: 16px;
   letter-spacing: -0.39px;
-  color: #b8b8b8;
+  color: ${neutralColor};
   margin: 4px 16px;
 `;
 
@@ -103,7 +105,7 @@ const CartCard = styled.div`
   width: 328px;
   height: 112px;
   border-radius: 8px;
-  border: solid 1px #b8b8b8;
+  border: solid 1px ${neutralColor};
   margin: 4px 16px;
   margin-left: 16px;
   display: flex;
@@ -120,7 +122,7 @@ const CardInfoName = styled.div`
   font-family: Roboto;
   font-size: 16px;
   letter-spacing: -0.39px;
-  color: #5cb646;
+  color: ${primaryColor};
   width: 167px;
   height: 18px;
 `;
@@ -129,7 +131,7 @@ const CardInfoDescription = styled.div`
   font-family: Roboto;
   font-size: 12px;
   letter-spacing: -0.29px;
-  color: #b8b8b8;
+  color: ${neutralColor};
   width: 200px;
   height: 30px;
 `;
@@ -147,15 +149,15 @@ const CardInfoQty = styled.div`
   height: 31px;
   padding: 0 11.5px;
   border-radius: 0 8px 0 8px;
-  border: solid 1px #5cb646;
+  border: solid 1px ${primaryColor};
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   top: -1px;
-  left: -16px;
+  left: -16.5px;
   letter-spacing: -0.39px;
-  color: #5cb646;
+  color: ${primaryColor};
   font-family: Roboto;
   font-size: 16px;
 `;
@@ -172,7 +174,7 @@ const CardInfoRemoveButton = styled.button`
   background-color: white;
   position: relative;
   top: 82px;
-  left: -106px;
+  left: -106.5px;
   letter-spacing: -0.29px;
   color: #e02020;
 `;
@@ -213,7 +215,7 @@ const TotalPriceValue = styled.div`
   font-size: 18px;
   font-weight: bold;
   letter-spacing: -0.43px;
-  color: #5cb646;
+  color: ${primaryColor};
   display: flex;
   justify-content: end;
 `;
@@ -268,13 +270,13 @@ const ConfirmButton = styled.button`
   height: 42px;
   padding: 12px 16px;
   border-radius: 2px;
-  background-color: #5cb646;
+  background-color: ${primaryColor};
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   font-size: 16px;
-  margin-bottom: 16px;
+  margin: 0 16px 16px 16px;
 `;
 
 const Footer = styled.footer`
@@ -289,16 +291,118 @@ const Footer = styled.footer`
   bottom: 0;
 `;
 
-const PhantomDiv = styled.div`
-  height: 55px;
-  width: 360px;
-  color: white;
-  padding: 10px 0;
-  font-size: 2em;
+const EmptyCartContainer = styled.div`
+  width: 100vw;
+  height: 80vh;
+`;
+
+const EmptyCartTitle = styled.div`
+  font-family: Roboto;
+  font-size: 16px;
+  width: 100vw;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const FoodPhoto = styled.img`
+  width: 96px;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 8px 0 0 8px;
+`;
+
+const CartContainer = styled.div`
+  width: 100vw;
+  min-height: 80vh;
 `;
 
 function Cart() {
-  // useProtectedPage()
+  useProtectedPage()
+
+  const [restaurantDetails, setRestaurantDetails] = useState();
+
+  const token = localStorage.getItem("token")
+
+  const getRestaurantDetails = () => {
+    axios
+      .get(`${BASE_URL}/restaurants/1`,
+        {
+          headers: {
+            auth: token
+          }
+        })
+      .then((res) => {
+        setRestaurantDetails(res.data.restaurant);
+      })
+      .catch((err) => {
+        alert(err.response.data.message)
+      })
+  };
+
+  useEffect(() => {
+    getRestaurantDetails();
+  }, []);
+
+  if (restaurantDetails) {
+    return (
+      <CartPageContainer>
+        <PageTitleContainer>
+          <Title>MEU CARRINHO</Title>
+        </PageTitleContainer>
+        <AddressContainer>
+          <AddressTitle>Endereço de Entrega</AddressTitle>
+          <Address>Rua Alessandra Vieira, 42</Address>
+        </AddressContainer>
+        <CartContainer>
+          <ShopName>{restaurantDetails.name}</ShopName>
+          <ShopAddress>{restaurantDetails.address}</ShopAddress>
+          <ShopDeliveryTime>{restaurantDetails.deliveryTime} - {Math.abs(restaurantDetails.deliveryTime + 15)} min</ShopDeliveryTime>
+          {restaurantDetails.products.map((food) => {
+            return (
+              <CartCard key={food.id}>
+                <FoodPhoto src={food.photoUrl} alt={food.name} />
+                <CardInfo>
+                  <CardInfoName>{food.name}</CardInfoName>
+                  <CardInfoDescription>{food.description}</CardInfoDescription>
+                  <CardInfoPrice>{food.price}</CardInfoPrice>
+                </CardInfo>
+                <CardInfoQty>2</CardInfoQty>
+                <CardInfoRemoveButton>remover</CardInfoRemoveButton>
+              </CartCard>
+            )
+          })}
+          <ShippingFee>Frete: R${restaurantDetails.shipping},00</ShippingFee>
+          <TotalPriceContainer>
+            <TotalPriceTitle>SUBTOTAL</TotalPriceTitle>
+            <TotalPriceValue>R$67,00</TotalPriceValue>
+          </TotalPriceContainer>
+          <PaymentContainer>
+            <PaymentContainerTitle>Forma de pagamento</PaymentContainerTitle>
+            <DivBar />
+            <PaymentOption>
+              <PaymentSelect>A</PaymentSelect>
+              <PaymentOptionTitle>Dinheiro</PaymentOptionTitle>
+            </PaymentOption>
+            <PaymentOption>
+              <PaymentSelect>A</PaymentSelect>
+              <PaymentOptionTitle>Cartão de Crédito</PaymentOptionTitle>
+            </PaymentOption>
+          </PaymentContainer>
+          <ConfirmButton>Confirmar</ConfirmButton>
+          <Footer>
+            <><HomeOutlinedIcon
+              fontSize="large" /></>
+            <><ShoppingCartOutlinedIcon
+              fontSize="large" /></>
+            <><PersonOutlineOutlinedIcon
+              fontSize="large" /></>
+          </Footer>
+        </CartContainer>
+      </CartPageContainer>
+    )
+  }
   return (
     <CartPageContainer>
       <PageTitleContainer>
@@ -308,48 +412,9 @@ function Cart() {
         <AddressTitle>Endereço de Entrega</AddressTitle>
         <Address>Rua Alessandra Vieira, 42</Address>
       </AddressContainer>
-      <ShopName>Bullger Vila Madalena</ShopName>
-      <ShopAddress>R. Fradique Coutinho, 1136 - Vila Madalena</ShopAddress>
-      <ShopDeliveryTime>30 - 45 min</ShopDeliveryTime>
-      <CartCard>
-        <img src={burgerPhoto} alt="burguer" />
-        <CardInfo>
-          <CardInfoName>Stencil</CardInfoName>
-          <CardInfoDescription>Pão, carne, queijo, cebola roxa, tomate, alface e molho.</CardInfoDescription>
-          <CardInfoPrice>R$46,00</CardInfoPrice>
-        </CardInfo>
-        <CardInfoQty>2</CardInfoQty>
-        <CardInfoRemoveButton>remover</CardInfoRemoveButton>
-      </CartCard>
-      <CartCard>
-        <img src={burgerPhoto} alt="burguer" />
-        <CardInfo>
-          <CardInfoName>Cheese Fries</CardInfoName>
-          <CardInfoDescription>Porção de fritas temperada com páprica e queijo derretido.</CardInfoDescription>
-          <CardInfoPrice>R$15,00</CardInfoPrice>
-        </CardInfo>
-        <CardInfoQty>1</CardInfoQty>
-        <CardInfoRemoveButton>remover</CardInfoRemoveButton>
-      </CartCard>
-      <ShippingFee>Frete: R$6,00</ShippingFee>
-      <TotalPriceContainer>
-        <TotalPriceTitle>SUBTOTAL</TotalPriceTitle>
-        <TotalPriceValue>R$67,00</TotalPriceValue>
-      </TotalPriceContainer>
-      <PaymentContainer>
-        <PaymentContainerTitle>Forma de pagamento</PaymentContainerTitle>
-        <DivBar />
-        <PaymentOption>
-          <PaymentSelect>A</PaymentSelect>
-          <PaymentOptionTitle>Dinheiro</PaymentOptionTitle>
-        </PaymentOption>
-        <PaymentOption>
-          <PaymentSelect>A</PaymentSelect>
-          <PaymentOptionTitle>Cartão de Crédito</PaymentOptionTitle>
-        </PaymentOption>
-      </PaymentContainer>
-      <ConfirmButton>Confirmar</ConfirmButton>
-      <PhantomDiv>A</PhantomDiv>
+      <EmptyCartContainer>
+        <EmptyCartTitle>SEU CARRINHO ESTÁ VAZIO!</EmptyCartTitle>
+      </EmptyCartContainer>
       <Footer>
         <><HomeOutlinedIcon
           fontSize="large" /></>
