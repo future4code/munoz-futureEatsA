@@ -49,13 +49,13 @@ function Router() {
 
         <Route exact path='/'>
           <Frame
-            page={<Home />}
+            page={
+              <Home
+                restaurante={restaurante}
+                setRestaurante={setRestaurante}
+                busca={busca}
+                setBusca={setBusca} />}
           />
-          <Home
-            restaurante={restaurante}
-            setRestaurante={setRestaurante}
-            busca={busca}
-            setBusca={setBusca} />
         </Route>
 
         <Route exact path='/restaurante/:id'>
