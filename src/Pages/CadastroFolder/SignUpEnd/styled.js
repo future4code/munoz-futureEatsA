@@ -5,6 +5,10 @@ export const ScreenContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100vw;
+<<<<<<< HEAD:src/Pages/CadastroFolder/styled.js
+  text-align: center;
+=======
+>>>>>>> master:src/Pages/CadastroFolder/SignUpEnd/styled.js
 `
 
 export const InputsContainer = styled.div` 
