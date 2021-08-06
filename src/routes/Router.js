@@ -10,8 +10,6 @@ import Carrinho from '../Pages/Carrinho/Carrinho'
 import Perfil from '../Pages/Perfil/PerfilUsuario'
 // import EditarCadastro from '../Pages/Perfil/EditarCadastro/'
 import Frame from '../Components/Frame/Frame.js';
-import { goToLogin } from './cordinator';
-import { useHistory } from 'react-router-dom';
 import EditarPerfil from '../Pages/Perfil/EditarPerfil/EditarPerfil'
 import EditarEndereco from '../Pages/Perfil/EditarEndereco/EditarEndereco'
 
@@ -21,7 +19,6 @@ function Router() {
   const [busca, setBusca] = useState("")
   const [listRestaurant, setListRestaurant] = useState()
   const [productInCart, setProductInCart] = useState([])
-  const history = useHistory()
 
   return (
     <BrowserRouter>
@@ -36,7 +33,7 @@ function Router() {
 
         <Route exact path='/cadastrosignup'>
           <Frame
-            onClickReturn={() => goToLogin(history)}
+            onClickString='/login'
             page={<CadastroSignUp />}
           />
         </Route>
@@ -90,7 +87,7 @@ function Router() {
         </Route>
       </Switch>
     </BrowserRouter>
-  )
-}
+  );
+};
 
 export default Router;

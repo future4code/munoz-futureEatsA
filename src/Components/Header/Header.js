@@ -1,26 +1,19 @@
 import React from 'react';
 import Divider from '@material-ui/core/Divider';
-import {Retornar, Head} from './styled'
-import { useHistory } from 'react-router-dom';
-
+import { Retornar, Head } from './styled'
 
 const Header = (props) => {
-
-  const history = useHistory()
-
-    return (
-    <>    
-    <Head>
-
-     <Retornar
-      onClick={props.onClickReturn}
-      fontSize="small"
-     />
-
-    </Head>
-    <Divider />
+  return (
+    <>
+      <Head>
+        <Retornar
+          onClick={props.onClickReturn}
+          fontSize="small"
+        />
+      </Head>
+      <Divider />
     </>
-    )
-}
+  );
+};
 
-export default Header
+export default Header;
