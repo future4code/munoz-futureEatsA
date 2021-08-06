@@ -45,7 +45,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Footer from '../../components/Footer'
+import Footer from '../../Components/Footer'
 
 function Home(props) {
   useProtectedPage()
@@ -86,7 +86,7 @@ function Home(props) {
 
   return (
     <Root>
-      <Tittle>FutereEats</Tittle>
+      <Tittle>FutureEats</Tittle>
 
       <ContainerInput>
         <Paper component="form" variant="outlined">
@@ -159,20 +159,7 @@ function Home(props) {
             })}
             
       </ScreenContainer>
-{/* //    <Footer>
-//      <>
-//        <HomeOutlinedIcon fontSize="large" />
-//      </>
-//      <>
-//        <ShoppingCartOutlinedIcon fontSize="large" />
-//        </>
-//        <>
-//          <PersonOutlineOutlinedIcon fontSize="large" />
- //       </>
-//      </Footer>
-//    </Root> */}
-    
-      <Footer/>
+      <Footer />
     </Root>
   );
 }
