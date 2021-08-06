@@ -1,12 +1,7 @@
 import axios from "axios"
 import { BASE_URL } from '../Constants/url';
-<<<<<<< HEAD
 import { goToHome } from "../routes/cordinator";
 import FormHelperText from '@material-ui/core/FormHelperText';
-=======
-import { goToHome, goToCadastroEndereco } from "../routes/cordinator";
->>>>>>> master
-
 export const logar = (body, clear, history) => {
     axios.post(`${BASE_URL}/login`, body)
     .then((res)=>{
@@ -20,7 +15,6 @@ export const logar = (body, clear, history) => {
 
 
 
-<<<<<<< HEAD
 export const signUp = (body, clear, history) => {
     
     axios.post(`${BASE_URL}/signup`, body)
@@ -34,5 +28,3 @@ export const signUp = (body, clear, history) => {
             alert(err.response.data.message)
         })
 }
-=======
->>>>>>> master

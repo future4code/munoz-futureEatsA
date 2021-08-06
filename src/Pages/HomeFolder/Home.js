@@ -47,7 +47,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Footer from '../../components/Footer'
 
-function Home() {
+function Home(props) {
   useProtectedPage()
   const [restaurante, setRestaurante] = useState();
   const [busca, setBusca] = useState("")
@@ -159,7 +159,7 @@ function Home() {
             })}
             
       </ScreenContainer>
-//    <Footer>
+{/* //    <Footer>
 //      <>
 //        <HomeOutlinedIcon fontSize="large" />
 //      </>
@@ -170,7 +170,7 @@ function Home() {
 //          <PersonOutlineOutlinedIcon fontSize="large" />
  //       </>
 //      </Footer>
-//    </Root>
+//    </Root> */}
     
       <Footer/>
     </Root>

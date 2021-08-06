@@ -8,15 +8,12 @@ import Home from '../Pages/HomeFolder/Home'
 import Restaurante from '../Pages/RestauranteFolder/Restaurante'
 import Carrinho from '../Pages/Carrinho/Carrinho'
 import Perfil from '../Pages/Perfil/PerfilUsuario'
-import EditarCadastro from '../Pages/Perfil/EditarCadastro'
-import EditarEndereco from '../Pages/Perfil/EditarEndereco'
-import Frame from '../Components/Frame/Frame';
+// import EditarCadastro from '../Pages/Perfil/EditarCadastro/'
+import Frame from '../Components/Frame/Frame.js';
 import { goToLogin } from './cordinator';
 import { useHistory } from 'react-router-dom';
 import EditarPerfil from '../Pages/Perfil/EditarPerfil/EditarPerfil'
 import EditarEndereco from '../Pages/Perfil/EditarEndereco/EditarEndereco'
-
-
 
 function Router() {
 
@@ -51,13 +48,13 @@ function Router() {
                  </Route>
 
                  <Route exact path='/'>
-                     <Home 
+                     {/* <Home 
                      restaurante={restaurante}
                      setRestaurante={setRestaurante}
                      busca={busca}
-                     setBusca={setBusca}
+                     setBusca={setBusca} /> */}
                      <Frame
-                       page={<Home />}
+                     page={<Home />}
                      />
                  </Route>
 

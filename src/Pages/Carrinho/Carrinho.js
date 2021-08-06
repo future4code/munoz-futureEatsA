@@ -7,6 +7,7 @@ import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import useProtectedPage from '../../hooks/useProtectedPage';
 import axios from 'axios';
+import Footer from '../../components/Footer';
 
 const CartPageContainer = styled.div`
   margin: 0 auto;
@@ -279,17 +280,17 @@ const ConfirmButton = styled.button`
   margin: 0 16px 16px 16px;
 `;
 
-const Footer = styled.footer`
-  width: 360px;
-  padding: 10px 0;
-  box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.2), 0 -2px 1px -1px rgba(0, 0, 0, 0.12), 0 -1px 1px 0 rgba(0, 0, 0, 0.14);
-  background-color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  position: sticky;
-  bottom: 0;
-`;
+// const Footer = styled.footer`
+//   width: 360px;
+//   padding: 10px 0;
+//   box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.2), 0 -2px 1px -1px rgba(0, 0, 0, 0.12), 0 -1px 1px 0 rgba(0, 0, 0, 0.14);
+//   background-color: #ffffff;
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-evenly;
+//   position: sticky;
+//   bottom: 0;
+// `;
 
 const EmptyCartContainer = styled.div`
   width: 100vw;
@@ -322,6 +323,7 @@ function Cart() {
   useProtectedPage()
 
   const [restaurantDetails, setRestaurantDetails] = useState();
+  const [cartItem, setCartItem] = useState([]);
 
   const token = localStorage.getItem("token")
 
@@ -335,11 +337,16 @@ function Cart() {
         })
       .then((res) => {
         setRestaurantDetails(res.data.restaurant);
+        setCartItem(res.data.restaurant.products);
       })
       .catch((err) => {
-        alert(err.response.data.message)
+        alert(err.res.data.message)
       })
   };
+
+  const removeItem = (foodId) => {
+    console.log("clicou");
+  }
 
   useEffect(() => {
     getRestaurantDetails();
@@ -359,7 +366,7 @@ function Cart() {
           <ShopName>{restaurantDetails.name}</ShopName>
           <ShopAddress>{restaurantDetails.address}</ShopAddress>
           <ShopDeliveryTime>{restaurantDetails.deliveryTime} - {Math.abs(restaurantDetails.deliveryTime + 15)} min</ShopDeliveryTime>
-          {restaurantDetails.products.map((food) => {
+          {cartItem.map((food) => {
             return (
               <CartCard key={food.id}>
                 <FoodPhoto src={food.photoUrl} alt={food.name} />
@@ -369,7 +376,7 @@ function Cart() {
                   <CardInfoPrice>{food.price}</CardInfoPrice>
                 </CardInfo>
                 <CardInfoQty>2</CardInfoQty>
-                <CardInfoRemoveButton>remover</CardInfoRemoveButton>
+                <CardInfoRemoveButton onClick={() => removeItem(food.id)}>remover</CardInfoRemoveButton>
               </CartCard>
             )
           })}
@@ -391,14 +398,7 @@ function Cart() {
             </PaymentOption>
           </PaymentContainer>
           <ConfirmButton>Confirmar</ConfirmButton>
-          <Footer>
-            <><HomeOutlinedIcon
-              fontSize="large" /></>
-            <><ShoppingCartOutlinedIcon
-              fontSize="large" /></>
-            <><PersonOutlineOutlinedIcon
-              fontSize="large" /></>
-          </Footer>
+          <Footer />
         </CartContainer>
       </CartPageContainer>
     )
@@ -415,14 +415,7 @@ function Cart() {
       <EmptyCartContainer>
         <EmptyCartTitle>SEU CARRINHO ESTÁ VAZIO!</EmptyCartTitle>
       </EmptyCartContainer>
-      <Footer>
-        <><HomeOutlinedIcon
-          fontSize="large" /></>
-        <><ShoppingCartOutlinedIcon
-          fontSize="large" /></>
-        <><PersonOutlineOutlinedIcon
-          fontSize="large" /></>
-      </Footer>
+      <Footer />
     </CartPageContainer>
   );
 };
