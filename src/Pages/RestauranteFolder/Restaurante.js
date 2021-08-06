@@ -41,7 +41,7 @@ function Restaurante(props) {
         console.log(error.response);
       });
   }, [params.id]);
-
+  
   const addRestaurant = (produto) => {
     const restaurant = props.productInCart.find((restaurant) => {
       if (restaurant.id === produto.id) {

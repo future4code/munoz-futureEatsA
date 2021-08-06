@@ -8,18 +8,24 @@ import Home from '../Pages/HomeFolder/Home'
 import Restaurante from '../Pages/RestauranteFolder/Restaurante'
 import Carrinho from '../Pages/Carrinho/Carrinho'
 import Perfil from '../Pages/Perfil/PerfilUsuario'
+import EditarCadastro from '../Pages/Perfil/EditarCadastro'
+import EditarEndereco from '../Pages/Perfil/EditarEndereco'
+import Frame from '../Components/Frame/Frame';
+import { goToLogin } from './cordinator';
+import { useHistory } from 'react-router-dom';
 import EditarPerfil from '../Pages/Perfil/EditarPerfil/EditarPerfil'
 import EditarEndereco from '../Pages/Perfil/EditarEndereco/EditarEndereco'
 
 
 
-
 function Router() {
 
-    const [restaurante, setRestaurante] = useState();
-    const [busca, setBusca] = useState("")
-    const [listRestaurant, setListRestaurant] = useState()
+  const [restaurante, setRestaurante] = useState();
+  const [busca, setBusca] = useState("")
+  const [listRestaurant, setListRestaurant] = useState()
   const [productInCart, setProductInCart] = useState([])
+  const history = useHistory()
+  
     return (
         <BrowserRouter>
              <Switch>
@@ -28,15 +34,20 @@ function Router() {
                  </Route>
 
                  <Route exact path='/login'>
-                    <Login />
+                   <Login />
                  </Route>
 
                  <Route exact path='/cadastrosignup'>
-                     <CadastroSignUp />
+                     <Frame
+                       onClickReturn={() => goToLogin(history)}
+                       page={<CadastroSignUp />}
+                     />
                  </Route>
 
                  <Route exact path='/cadastroendereco'>
-                     <CadastroEnd />
+                     <Frame
+                       page={<CadastroEnd />}
+                     />
                  </Route>
 
                  <Route exact path='/'>
@@ -45,6 +56,8 @@ function Router() {
                      setRestaurante={setRestaurante}
                      busca={busca}
                      setBusca={setBusca}
+                     <Frame
+                       page={<Home />}
                      />
                  </Route>
 
@@ -58,11 +71,15 @@ function Router() {
                  </Route>
 
                  <Route exact path='/carrinho'>
-                     <Carrinho />
+                     <Frame
+                       page={<Carrinho />}
+                     />
                  </Route>
 
                  <Route exact path='/perfil'>
-                     <Perfil />
+                     <Frame
+                       page={<Perfil />}
+                     />
                  </Route>
 
                  <Route exact path='/editarperfil'>
@@ -70,7 +87,9 @@ function Router() {
                  </Route>
 
                  <Route exact path='/editarendereco'>
-                     <EditarEndereco />
+                     <Frame
+                       page={<EditarEndereco />}
+                     />
                  </Route>
              </Switch>
         </BrowserRouter>

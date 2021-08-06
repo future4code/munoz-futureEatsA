@@ -100,6 +100,18 @@ export const Footer = styled.footer`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  position: sticky;
+  position: fixed;
   bottom: 0;
 `;
+
+export const Categoria = styled.p `
+&:active{
+  color: #5cb646;
+}
+&:hover{
+  color: #5cb646;
+  cursor: pointer;
+}
+
+
+`
