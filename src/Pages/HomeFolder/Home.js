@@ -41,10 +41,9 @@ import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 
 
-function Home() {
+function Home(props) {
   useProtectedPage()
-  const [restaurante, setRestaurante] = useState();
-  const [busca, setBusca] = useState("")
+ 
   const history = useHistory();
 
   useEffect(() => {
@@ -60,16 +59,15 @@ function Home() {
       )
       .then((response) => {
         console.log(response.data);
-        setRestaurante(response.data.restaurants);
+        props.setRestaurante(response.data.restaurants);
       })
       .catch((error) => {
         console.log(error.response);
       });
   }, []);
-  console.log("home", restaurante);
-
+  
   const onChangeBusca = (e) => {
-    setBusca(e.target.value)
+    props.setBusca(e.target.value)
   }
 
   return (
@@ -85,7 +83,7 @@ function Home() {
           <InputBase
             type="text"
             placeholder="Buscar Restaurante"
-            value={busca}
+            value={props.busca}
             onChange={onChangeBusca}
             placeholder="Restaurante"
             
@@ -96,8 +94,8 @@ function Home() {
 
       </ContainerInput>
       <BarraScroll>
-        {restaurante &&
-          restaurante.map((restaurante) => {
+        {props.restaurante &&
+          props.restaurante.map((restaurante) => {
             return (
               <ContainerLista key={restaurante.id}>
                 <Lista onClick={() => goToRestaurante(history, restaurante.id)}>
@@ -108,11 +106,11 @@ function Home() {
           })}
       </BarraScroll>
       <ScreenContainer>
-        {restaurante &&
-          restaurante.filter((restaurante) => {
-            if (busca === "") {
+        {props.restaurante &&
+          props.restaurante.filter((restaurante) => {
+            if (props.includesbusca === "") {
               return restaurante
-            } else if (restaurante.name.toLowerCase().includes(busca.toLowerCase())) {
+            } else if (restaurante.name.toLowerCase().includes(props.busca.toLowerCase())) {
               return restaurante
             }
           })
@@ -159,22 +157,22 @@ function Home() {
                   <><PersonOutlineOutlinedIcon
                     fontSize="large" /></>
                 </Footer>
-    </Root>
+</Root>
 //=======
-          .map((restaurante) => {
+          /*.map((restaurante) => {
             return (
               <CardImagem key={restaurante.id}>
                 <Imagem
                   onClick={() => goToRestaurante(history, restaurante.id)}
                   src={restaurante.logoUrl}
-                ></Imagem>
+                  ></Imagem>
               </CardImagem>
             );
           })}
       </ContainerImagem>
-    </div>
-//>>>>>>> master
-  );
-}
+    </div>*/
+    //>>>>>>> master
+    );
+  }
 
 export default Home;
