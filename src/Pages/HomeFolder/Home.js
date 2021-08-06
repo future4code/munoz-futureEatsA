@@ -1,7 +1,7 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import useProtectedPage from '../../hooks/useProtectedPage';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import useProtectedPage from "../../hooks/useProtectedPage";
 import {
   ContainerInput,  
   CardInfo,
@@ -15,7 +15,29 @@ import {
   Info,
   CardImg,  
   Categoria
-} from './styled';
+//  Footer,
+} from "./styled";
+//import { MdSearch } from "react-icons/md";
+//import { goToRestaurante } from "../../routes/cordinator";
+//import Card from "@material-ui/core/Card";
+//import CardActionArea from "@material-ui/core/CardActionArea";
+//import CardActions from "@material-ui/core/CardActions";
+//import CardContent from "@material-ui/core/CardContent";
+//import CardMedia from "@material-ui/core/CardMedia";
+//import Button from "@material-ui/core/Button";
+//import Typography from "@material-ui/core/Typography";
+//import OutlinedInput from "@material-ui/core/InputBase";
+//import SearchIcon from "@material-ui/icons/Search";
+//import TextField from "@material-ui/core/TextField";
+//import Paper from "@material-ui/core/Paper";
+//import InputBase from "@material-ui/core/InputBase";
+//import Divider from "@material-ui/core/Divider";
+//import IconButton from "@material-ui/core/IconButton";
+//import MenuIcon from "@material-ui/icons/Menu";
+//import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
+//import DirectionsIcon from "@material-ui/icons/Directions";
+//import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
+//import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import { goToRestaurante } from '../../routes/cordinator';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search'
@@ -51,24 +73,23 @@ function Home() {
       )
       .then((response) => {
         console.log(response.data);
-        setRestaurante(response.data.restaurants);
+        props.setRestaurante(response.data.restaurants);
       })
       .catch((error) => {
         console.log(error.response);
       });
   }, []);
-  console.log("home", restaurante);
 
   const onChangeBusca = (e) => {
-    setBusca(e.target.value)
-  }
+    props.setBusca(e.target.value);
+  };
 
   return (
     <Root>
       <Tittle>FutereEats</Tittle>
 
       <ContainerInput>
-        <Paper component="form" variant="outlined" >
+        <Paper component="form" variant="outlined">
           <IconButton type="submit" aria-label="search">
             <SearchIcon />
           </IconButton>
@@ -76,17 +97,16 @@ function Home() {
           <InputBase
             type="text"
             placeholder="Buscar Restaurante"
-            value={busca}
+            value={props.busca}
             onChange={onChangeBusca}
             placeholder="Restaurante"
-            
           />
           <Divider orientation="horizontal" />
         </Paper>
       </ContainerInput>
       <BarraScroll>
-        {restaurante &&
-          restaurante.map((restaurante) => {
+        {props.restaurante &&
+          props.restaurante.map((restaurante) => {
             return (
               <ContainerLista key={restaurante.id}>
                 <Lista onClick={() => changeCategory(restaurante.category)}>
@@ -97,65 +117,63 @@ function Home() {
           })}
       </BarraScroll>
       <ScreenContainer>
-        {restaurante &&
-          restaurante.filter((restaurante) => {
-            if (categoria === restaurante.category) {
-              return true
-            } 
-            else  {
-              return false
-            }
-            
-            
-          }).filter((restaurante) => {
-            
-            if (busca === "") {
-              return restaurante
-            } 
-            else if (restaurante.name.toLowerCase().includes(busca.toLowerCase())) {
-              return restaurante
-            }
-            
-          })
+        {props.restaurante &&
+          props.restaurante
+            .filter((restaurante) => {
+              if (props.includesbusca === "") {
+                return restaurante;
+              } else if (
+                restaurante.name
+                  .toLowerCase()
+                  .includes(props.busca.toLowerCase())
+              ) {
+                return restaurante;
+              }
+            })
             .map((restaurante) => {
               return (
-                
-                  <CardContainer>                    
-                      <CardImg                                                
-                        src={restaurante.logoUrl}                        
-                      />
-                      <CardInfo>
-                        <Typography gutterBottom variant="h5" component="h2" color="primary">
-                          {restaurante.name}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                          <Info><p>{restaurante.deliveryTime} min</p><p>Frete R${restaurante.shipping},00</p></Info>
-                        </Typography>
-                      </CardInfo>
-                      
-                       
-                        
-                        
-                     
-                    
-                  </CardContainer>
-                  
-                
-
-                /* <CardImagem key={restaurante}>
-                  <Imagem
-                    onClick={() => goToRestaurante(history, restaurante.id)}
-                    src={restaurante.logoUrl}
-                  ></Imagem>
-                </CardImagem>  */
+                <CardContainer>
+                  <CardImg src={restaurante.logoUrl} />
+                  <CardInfo>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      color="primary"
+                    >
+                      {restaurante.name}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      <Info>
+                        <p>{restaurante.deliveryTime} min</p>
+                        <p>Frete R${restaurante.shipping},00</p>
+                      </Info>
+                    </Typography>
+                  </CardInfo>
+                </CardContainer>
               );
             })}
             
       </ScreenContainer>
-      
+//    <Footer>
+//      <>
+//        <HomeOutlinedIcon fontSize="large" />
+//      </>
+//      <>
+//        <ShoppingCartOutlinedIcon fontSize="large" />
+//        </>
+//        <>
+//          <PersonOutlineOutlinedIcon fontSize="large" />
+ //       </>
+//      </Footer>
+//    </Root>
+    
       <Footer/>
     </Root>
-
   );
 }
 

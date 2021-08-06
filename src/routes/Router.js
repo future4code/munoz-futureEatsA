@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import TelaInicial from '../Pages/TelaInicial'
 import Login from '../Pages/LoginFolder/Login'
@@ -20,8 +20,12 @@ import EditarEndereco from '../Pages/Perfil/EditarEndereco/EditarEndereco'
 
 function Router() {
 
+  const [restaurante, setRestaurante] = useState();
+  const [busca, setBusca] = useState("")
+  const [listRestaurant, setListRestaurant] = useState()
+  const [productInCart, setProductInCart] = useState([])
   const history = useHistory()
-    
+  
     return (
         <BrowserRouter>
              <Switch>
@@ -47,13 +51,23 @@ function Router() {
                  </Route>
 
                  <Route exact path='/'>
+                     <Home 
+                     restaurante={restaurante}
+                     setRestaurante={setRestaurante}
+                     busca={busca}
+                     setBusca={setBusca}
                      <Frame
                        page={<Home />}
                      />
                  </Route>
 
                  <Route exact path='/restaurante/:id'>
-                     <Restaurante />
+                     <Restaurante 
+                     listRestaurant={listRestaurant}
+                     setListRestaurant={setListRestaurant}
+                     productInCart={productInCart}
+                     setProductInCart={setProductInCart}
+                     />
                  </Route>
 
                  <Route exact path='/carrinho'>

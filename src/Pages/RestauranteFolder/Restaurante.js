@@ -1,42 +1,49 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useProtectedPage from "../../hooks/useProtectedPage";
-import { Botao, CardBotao, CardDetalheProduto, CardName, CardNomeProduto, CardPreco, CardRestaurant, DetalheProduto, Imagem, ListName, NomeProduto, Preco } from "../RestauranteFolder/styled";
+import {
+  Botao,
+  CardBotao,
+  CardDetalheProduto,
+  CardName,
+  CardNomeProduto,
+  CardPreco,
+  CardRestaurant,
+  DetalheProduto,
+  Imagem,
+  ListName,
+  NomeProduto,
+  Preco,
+} from "../RestauranteFolder/styled";
+import { CardImagem } from "../HomeFolder/styled";
 import { ContainerDetail, Card, CardDetail } from "./styled";
+import { BASE_URL } from "../../Constants/url";
 
-
-function Restaurante() {
+function Restaurante(props) {
   useProtectedPage();
-  const [listRestaurant, setListRestaurant] = useState();
-  const [productInCart, setProductInCart] = useState([]);
+
   const params = useParams();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     axios
-      .get(
-        `https://us-central1-missao-newton.cloudfunctions.net/futureEatsA/restaurants/${params.id}`,
-        {
-          headers: {
-            auth: token,
-          },
-        }
-      )
+      .get(`${BASE_URL}/restaurants/${params.id}`, {
+        headers: {
+          auth: token,
+        },
+      })
       .then((response) => {
-        console.log(response.data.restaurant.products);
-        setListRestaurant(response.data.restaurant.products);
+        console.log(response.data);
+        props.setListRestaurant(response.data.restaurant.products);
       })
       .catch((error) => {
         console.log(error.response);
       });
   }, [params.id]);
-
-
+  
   const addRestaurant = (produto) => {
-    const restaurant = productInCart.find((restaurant) => {
+    const restaurant = props.productInCart.find((restaurant) => {
       if (restaurant.id === produto.id) {
         return true;
       }
@@ -48,10 +55,10 @@ function Restaurante() {
         ...produto,
         quantity: 1,
       };
-      const copiaCarrinho = [...productInCart, novoCarrinho];
-      setProductInCart(copiaCarrinho);
+      const copiaCarrinho = [...props.productInCart, novoCarrinho];
+      props.setProductInCart(copiaCarrinho);
     } else {
-      const copiaCarrinho = productInCart.map((restaurant) => {
+      const copiaCarrinho = props.productInCart.map((restaurant) => {
         if (restaurant.id === produto.id) {
           return {
             ...restaurant,
@@ -61,17 +68,18 @@ function Restaurante() {
           return restaurant;
         }
       });
-      setProductInCart(copiaCarrinho);
+      props.setProductInCart(copiaCarrinho);
     }
-    console.log("adicionou", productInCart);
+  
   };
   return (
     <ContainerDetail>
       <CardRestaurant>
         <h3>Restaurante</h3>
       </CardRestaurant>
-      {listRestaurant &&
-        listRestaurant.map((list) => {
+
+      {props.listRestaurant &&
+        props.listRestaurant.map((list) => {
           return (
             <CardDetail>
               <Card>
@@ -90,11 +98,11 @@ function Restaurante() {
                   <Preco>R$ {list.price}0</Preco>
                 </CardPreco>
               </CardName>
-                <CardBotao>
-                  <Botao onClick={() => addRestaurant(params.id)}>
-                    Adicionar
-                  </Botao>
-                </CardBotao>
+              <CardBotao>
+                <Botao onClick={() => addRestaurant(params.id)}>
+                  Adicionar
+                </Botao>
+              </CardBotao>
             </CardDetail>
           );
         })}
