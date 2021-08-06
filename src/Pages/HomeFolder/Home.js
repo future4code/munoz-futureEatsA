@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useProtectedPage from '../../hooks/useProtectedPage';
 import {
-  ContainerInput,
-  CampoIcon,
-  CardImagem,
+  ContainerInput,  
   CardInfo,
   ScreenContainer,
   ContainerLista,
@@ -15,39 +13,32 @@ import {
   Root,
   Tittle,
   Info,
-  CardImg,
-  Footer,
+  CardImg,  
+  Categoria
 } from './styled';
-import { MdSearch } from "react-icons/md"
 import { goToRestaurante } from '../../routes/cordinator';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import OutlinedInput from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search'
-import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import DirectionsIcon from '@material-ui/icons/Directions';
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
-
+import Footer from '../../components/Footer'
 
 function Home() {
   useProtectedPage()
   const [restaurante, setRestaurante] = useState();
   const [busca, setBusca] = useState("")
+  const [categoria, setCategoria] = useState("Árabe")
   const history = useHistory();
 
+  const changeCategory = (type) => {
+   
+    setCategoria(type)    
+  }
+
   useEffect(() => {
+    
     const token = localStorage.getItem("token");
     axios
       .get(
@@ -91,17 +82,15 @@ function Home() {
             
           />
           <Divider orientation="horizontal" />
-
         </Paper>
-
       </ContainerInput>
       <BarraScroll>
         {restaurante &&
           restaurante.map((restaurante) => {
             return (
               <ContainerLista key={restaurante.id}>
-                <Lista onClick={() => goToRestaurante(history, restaurante.id)}>
-                  {restaurante.category}
+                <Lista onClick={() => changeCategory(restaurante.category)}>
+                  <Categoria >{restaurante.category}</Categoria>
                 </Lista>
               </ContainerLista>
             );
@@ -110,11 +99,23 @@ function Home() {
       <ScreenContainer>
         {restaurante &&
           restaurante.filter((restaurante) => {
+            if (categoria === restaurante.category) {
+              return true
+            } 
+            else  {
+              return false
+            }
+            
+            
+          }).filter((restaurante) => {
+            
             if (busca === "") {
               return restaurante
-            } else if (restaurante.name.toLowerCase().includes(busca.toLowerCase())) {
+            } 
+            else if (restaurante.name.toLowerCase().includes(busca.toLowerCase())) {
               return restaurante
             }
+            
           })
             .map((restaurante) => {
               return (
@@ -149,15 +150,10 @@ function Home() {
                 </CardImagem>  */
               );
             })}
+            
       </ScreenContainer>
-      <Footer>
-                  <><HomeOutlinedIcon
-                    fontSize="large" /></>
-                  <><ShoppingCartOutlinedIcon
-                    fontSize="large" /></>
-                  <><PersonOutlineOutlinedIcon
-                    fontSize="large" /></>
-                </Footer>
+      
+      <Footer/>
     </Root>
 
   );
