@@ -19,10 +19,12 @@ import {
 import { CardImagem } from "../HomeFolder/styled";
 import { ContainerDetail, Card, CardDetail } from "./styled";
 import { BASE_URL } from "../../Constants/url";
+import Modal from "./modal";
+
 
 function Restaurante(props) {
   useProtectedPage();
-
+  const [modalVisibily, setModalVisibily] = useState(false)
   const params = useParams();
 
   useEffect(() => {
@@ -77,7 +79,7 @@ function Restaurante(props) {
       <CardRestaurant>
         <h3>Restaurante</h3>
       </CardRestaurant>
-
+      {modalVisibily? <Modal addRestaurant={addRestaurant}/>: null }
       {props.listRestaurant &&
         props.listRestaurant.map((list) => {
           return (
@@ -99,9 +101,10 @@ function Restaurante(props) {
                 </CardPreco>
               </CardName>
               <CardBotao>
-                <Botao onClick={() => addRestaurant(params.id)}>
+                <Botao onClick={() => setModalVisibily(true) }>
                   Adicionar
                 </Botao>
+              
               </CardBotao>
             </CardDetail>
           );

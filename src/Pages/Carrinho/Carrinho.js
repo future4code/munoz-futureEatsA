@@ -7,7 +7,9 @@ import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import useProtectedPage from '../../hooks/useProtectedPage';
 import axios from 'axios';
-import Footer from '../../components/Footer';
+import { Footer } from '../HomeFolder/styled';
+//import Footer from '../../components/Footer';
+
 
 const CartPageContainer = styled.div`
   margin: 0 auto;
