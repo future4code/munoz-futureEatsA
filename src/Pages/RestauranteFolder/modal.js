@@ -1,0 +1,70 @@
+import React from 'react'
+import { useParams } from 'react-router';
+import styled from 'styled-components';
+
+const ContainerModal = styled.div ` 
+width: 100%;
+height: 100vh;
+position: absolute;
+z-index: 10;
+background-color:  RGBA( 169, 169, 169, .5 );
+display: flex;
+justify-content: center;
+align-self: center;
+
+`
+const CardModal = styled.div ` 
+background-color: white;
+width: 80%;
+height: 20%;
+margin-top: 200px;
+`
+const CardBotao = styled.div ` 
+display: flex;
+align-items: center;
+margin-top: 15px;
+margin-left: 80px;
+`
+const CardTexto = styled.h4 ` 
+display: flex;
+justify-content: center;
+`
+const CardOption = styled.select `
+margin-left: 50px;
+width: 200px;
+`
+const Botao = styled.button `
+border: 1px solid green;
+display: flex;
+align-items: center;
+justify-content: center;
+width: 150px;
+height: 30px;
+color: green;
+background-color: white;
+&:hover {
+      background-color: #32CD32;
+    color: white;
+  }
+`
+
+const Modal = (props) => {
+    console.log("teste", props);
+    const params = useParams();
+    return <ContainerModal>
+        <CardModal>
+            <CardTexto>Selecione a quantidade desejada</CardTexto>
+            <CardOption>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </CardOption>
+            <CardBotao>
+                <Botao onClick={() => props.addRestaurant(params.id)}>Adicionar ao Carrinho</Botao>
+            </CardBotao>
+        </CardModal>
+    </ContainerModal>
+}
+export default Modal;

@@ -49,8 +49,7 @@ import Footer from '../../Components/Footer'
 
 function Home(props) {
   useProtectedPage()
-  const [restaurante, setRestaurante] = useState();
-  const [busca, setBusca] = useState("")
+  
   const [categoria, setCategoria] = useState("Árabe")
   const history = useHistory();
 
@@ -133,7 +132,7 @@ function Home(props) {
             .map((restaurante) => {
               return (
                 <CardContainer>
-                  <CardImg src={restaurante.logoUrl} />
+                  <CardImg onClick={() => goToRestaurante(history, restaurante.id)} src={restaurante.logoUrl} />
                   <CardInfo>
                     <Typography
                       gutterBottom
