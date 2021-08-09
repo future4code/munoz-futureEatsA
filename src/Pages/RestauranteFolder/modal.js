@@ -1,5 +1,4 @@
-import React from 'react'
-import { useParams } from 'react-router';
+import React, { useState } from 'react'
 import styled from 'styled-components';
 
 const ContainerModal = styled.div ` 
@@ -49,20 +48,27 @@ background-color: white;
 `
 
 const Modal = (props) => {
-    console.log("teste", props);
-    const params = useParams();
+
+    const [quantity, setQuantity] = useState(1);
+
+    const handleChange = (event) => {
+        setQuantity(event.target.value);
+    };
+
     return <ContainerModal>
         <CardModal>
             <CardTexto>Selecione a quantidade desejada</CardTexto>
-            <CardOption>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+            <CardOption
+                value={quantity}
+                onChange={handleChange}>
+                <option value={Number(1)}>1</option>
+                <option value={Number(2)}>2</option>
+                <option value={Number(3)}>3</option>
+                <option value={Number(4)}>4</option>
+                <option value={Number(5)}>5</option>
             </CardOption>
             <CardBotao>
-                <Botao onClick={() => props.addRestaurant(params.id)}>Adicionar ao Carrinho</Botao>
+                <Botao onClick={() => props.addRestaurant(quantity)}>Adicionar ao Carrinho</Botao>
             </CardBotao>
         </CardModal>
     </ContainerModal>
