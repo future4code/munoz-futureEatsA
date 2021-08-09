@@ -282,18 +282,6 @@ const ConfirmButton = styled.button`
   margin: 0 16px 16px 16px;
 `;
 
-// const Footer = styled.footer`
-//   width: 360px;
-//   padding: 10px 0;
-//   box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.2), 0 -2px 1px -1px rgba(0, 0, 0, 0.12), 0 -1px 1px 0 rgba(0, 0, 0, 0.14);
-//   background-color: #ffffff;
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-evenly;
-//   position: sticky;
-//   bottom: 0;
-// `;
-
 const EmptyCartContainer = styled.div`
   width: 100vw;
   height: 80vh;
@@ -321,25 +309,23 @@ const CartContainer = styled.div`
   min-height: 80vh;
 `;
 
-function Cart() {
+function Cart(props) {
   useProtectedPage()
 
-  const [restaurantDetails, setRestaurantDetails] = useState();
-  const [cartItem, setCartItem] = useState([]);
+  const [deliveryAddress, setdeliveryAddress] = useState();
 
   const token = localStorage.getItem("token")
 
   const getRestaurantDetails = () => {
     axios
-      .get(`${BASE_URL}/restaurants/1`,
+      .get(`${BASE_URL}/profile/address`,
         {
           headers: {
             auth: token
           }
         })
       .then((res) => {
-        setRestaurantDetails(res.data.restaurant);
-        setCartItem(res.data.restaurant.products);
+        setdeliveryAddress(res.data.restaurant);
       })
       .catch((err) => {
         alert(err.res.data.message)
@@ -354,7 +340,7 @@ function Cart() {
     getRestaurantDetails();
   }, []);
 
-  if (restaurantDetails) {
+  if (props.restaurantDetails) {
     return (
       <CartPageContainer>
         <PageTitleContainer>
@@ -365,10 +351,10 @@ function Cart() {
           <Address>Rua Alessandra Vieira, 42</Address>
         </AddressContainer>
         <CartContainer>
-          <ShopName>{restaurantDetails.name}</ShopName>
-          <ShopAddress>{restaurantDetails.address}</ShopAddress>
-          <ShopDeliveryTime>{restaurantDetails.deliveryTime} - {Math.abs(restaurantDetails.deliveryTime + 15)} min</ShopDeliveryTime>
-          {cartItem.map((food) => {
+          <ShopName>{props.restaurantDetails.name}</ShopName>
+          <ShopAddress>{props.restaurantDetails.address}</ShopAddress>
+          <ShopDeliveryTime>{props.restaurantDetails.deliveryTime} - {Math.abs(props.restaurantDetails.deliveryTime + 15)} min</ShopDeliveryTime>
+          {props.cartItem.map((food) => {
             return (
               <CartCard key={food.id}>
                 <FoodPhoto src={food.photoUrl} alt={food.name} />
@@ -382,7 +368,7 @@ function Cart() {
               </CartCard>
             )
           })}
-          <ShippingFee>Frete: R${restaurantDetails.shipping},00</ShippingFee>
+          <ShippingFee>Frete: R${props.restaurantDetails.shipping},00</ShippingFee>
           <TotalPriceContainer>
             <TotalPriceTitle>SUBTOTAL</TotalPriceTitle>
             <TotalPriceValue>R$67,00</TotalPriceValue>

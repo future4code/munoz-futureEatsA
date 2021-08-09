@@ -24,7 +24,8 @@ import Modal from "./modal";
 
 function Restaurante(props) {
   useProtectedPage();
-  const [modalVisibily, setModalVisibily] = useState(false)
+  const [modalVisibily, setModalVisibily] = useState(false);
+  const [product, setProduct] = useState(null);
   const params = useParams();
 
   useEffect(() => {
@@ -36,54 +37,47 @@ function Restaurante(props) {
         },
       })
       .then((response) => {
-        console.log(response.data);
         props.setListRestaurant(response.data.restaurant.products);
       })
       .catch((error) => {
         console.log(error.response);
       });
   }, [params.id]);
-  
-  const addRestaurant = (produto) => {
-    const restaurant = props.productInCart.find((restaurant) => {
-      if (restaurant.id === produto.id) {
-        return true;
-      }
-      return false;
-    });
 
-    if (!restaurant) {
-      const novoCarrinho = {
-        ...produto,
-        quantity: 1,
-      };
-      const copiaCarrinho = [...props.productInCart, novoCarrinho];
-      props.setProductInCart(copiaCarrinho);
-    } else {
-      const copiaCarrinho = props.productInCart.map((restaurant) => {
-        if (restaurant.id === produto.id) {
-          return {
-            ...restaurant,
-            quantity: restaurant.quantity + 1,
-          };
-        } else {
-          return restaurant;
-        }
-      });
-      props.setProductInCart(copiaCarrinho);
+  const addToCart = (qty) => {
+    console.log('clicou')
+    const productAddingToCart = product;
+    const cartItems = props.productInCart;
+    let alreadyInCart = false;
+    cartItems.forEach((item) => {
+      if (item.id === productAddingToCart.id) {
+        item.count = Number(item.count) + Number(qty);
+        alreadyInCart = true;
+      }
+    });
+    if (alreadyInCart === false) {
+      cartItems.push({ ...productAddingToCart, count: Number(qty) });
     }
-  
+    props.setProductInCart(cartItems);
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    setModalVisibily(false);
   };
+
+  const openModal = (product) => {
+    setModalVisibily(true);
+    setProduct(product);;
+  }
+
   return (
     <ContainerDetail>
       <CardRestaurant>
         <h3>Restaurante</h3>
       </CardRestaurant>
-      {modalVisibily? <Modal addRestaurant={addRestaurant}/>: null }
+      {modalVisibily ? <Modal addRestaurant={addToCart} /> : null}
       {props.listRestaurant &&
         props.listRestaurant.map((list) => {
           return (
-            <CardDetail>
+            <CardDetail key={list.id}>
               <Card>
                 <Imagem src={list.photoUrl}></Imagem>
               </Card>
@@ -101,10 +95,10 @@ function Restaurante(props) {
                 </CardPreco>
               </CardName>
               <CardBotao>
-                <Botao onClick={() => setModalVisibily(true) }>
+                <Botao onClick={() => openModal(list)}>
                   Adicionar
                 </Botao>
-              
+
               </CardBotao>
             </CardDetail>
           );
