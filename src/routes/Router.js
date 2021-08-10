@@ -23,6 +23,11 @@ function Router() {
       ? JSON.parse(localStorage.getItem("cartItems"))
       : []
   );
+  const [restaurantCart, setRestaurantCart] = useState(
+    localStorage.getItem("restaurantCart")
+      ? JSON.parse(localStorage.getItem("restaurantCart"))
+      : {}
+  );
 
   return (
     <BrowserRouter>
@@ -65,14 +70,18 @@ function Router() {
             setListRestaurant={setListRestaurant}
             productInCart={productInCart}
             setProductInCart={setProductInCart}
+            setRestaurantCart={setRestaurantCart}
+            restaurantCart={restaurantCart}
           />
         </Route>
 
         <Route exact path='/carrinho'>
           <Frame
+            onClickString='/'
             page={<Carrinho
-              cartItem = {productInCart}
-              restaurantDetails = {restaurante}/>}
+              cartItem={productInCart}
+              restaurantDetails={restaurantCart}
+              setProductInCart={setProductInCart} />}
           />
         </Route>
 
